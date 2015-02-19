@@ -128,21 +128,32 @@ public class ReportGUI extends JavaPlugin implements Listener {
 			else if(p.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.GOLD + "AdminInventoryTools")){
 				if(event.getAction() == Action.LEFT_CLICK_AIR){
 					if(p.getItemInHand().getType() == Material.STICK){
+
 						//ここの内容はインベントリGUIのアイテム設定です
 						ItemStack Item = item;
 						ItemMeta meta = item.getItemMeta();
+
+						//□Report□インベントリに接続
 						createinv = Bukkit.createInventory(p, 54, "□Report□");
 
+						//ループ処理
+						//zはカウントアップ
 						for(int z=0 ; z<players.length;z++){
+							if(players.length<54){
+								//プレイヤーの名前をDipsplayNameへセット、Lore1行目にUUIDを記載し
+								String puuid = players[z].getUniqueId().toString();
+								meta.setDisplayName(players[z].getPlayer().getName());
+								meta.setLore(Arrays.asList(puuid, ChatColor.WHITE + "プレイヤーを通報するには", ChatColor.WHITE + "クリックしましょう。"));
+								Item.setItemMeta(meta);
+								createinv.setItem(z, Item);
+							}
+							else{
+								p.sendMessage(ChatColor.RED + "プレイヤーが54名以上なので対応していません。");
+							}
 
-
-							String puuid = players[z].getUniqueId().toString();
-							meta.setDisplayName(players[z].getPlayer().getName());
-							meta.setLore(Arrays.asList(puuid, ChatColor.WHITE + "プレイヤーを通報するには", ChatColor.WHITE + "クリックしましょう。"));
-							Item.setItemMeta(meta);
-							createinv.setItem(z, Item);
 						}
 						//インベントリオープン
+						//□Report□のクリックイベントを取得することで続きの処理が可能
 						p.openInventory(createinv);
 					}
 				}
@@ -152,7 +163,7 @@ public class ReportGUI extends JavaPlugin implements Listener {
 
 	@EventHandler
 	public void onInventoryClickEvent(InventoryClickEvent event){
-		if (event.getInventory().getName().equalsIgnoreCase(" □Admin Menu□ ")){
+		if (event.getInventory().getName().equalsIgnoreCase("□Report□")){
 			if (event.getRawSlot() < 54 && event.getRawSlot() > -1){
 				Player player = (Player) event.getWhoClicked();
 				World world = player.getWorld();
