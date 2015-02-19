@@ -1,0 +1,28 @@
+name: ReportGUI
+version: 0.0.1
+main: net.jp.minecraft.plugin.ReportGUI
+commands:
+    ait:
+        description: Provides a Admin GUI for administrators.
+        usage: /ait
+        permission: ait.give
+        permission-message: You don't have permission (ait.give)
+    skull:
+        description: Get a player skull.
+        usage: /skull <player>
+        permission: ait.skull
+        permission-message: You don't have permission (ait.skull)
+permissions:
+    ait.open:
+        description: Allow open Admin GUI.
+        default: op
+    ait.give:
+        description: Give a Admin GUI stick.
+        default: op
+    ait.skull:
+        description: Get a player Skull.
+        default: op
+    ait.gui:
+        description: Allow use GUI icon.
+        default: op
+
